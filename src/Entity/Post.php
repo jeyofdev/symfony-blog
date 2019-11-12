@@ -16,30 +16,36 @@ class Post
      */
     private $id;
 
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $title;
+
 
     /**
      * @ORM\Column(type="text")
      */
     private $content;
 
+
     /**
      * @ORM\Column(type="datetime")
      */
     private $created_at;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
+
     public function getTitle(): ?string
     {
         return $this->title;
     }
+
 
     public function setTitle(string $title): self
     {
@@ -48,10 +54,12 @@ class Post
         return $this;
     }
 
+
     public function getContent(): ?string
     {
         return $this->content;
     }
+
 
     public function setContent(string $content): self
     {
@@ -60,10 +68,12 @@ class Post
         return $this;
     }
 
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
     }
+
 
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
