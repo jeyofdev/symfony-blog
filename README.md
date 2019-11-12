@@ -1,0 +1,1 @@
+# Personal project of a blog with Symfony
