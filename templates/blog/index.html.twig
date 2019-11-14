@@ -16,12 +16,12 @@
                                 <img class="img-fluid" src="https://via.placeholder.com/500x225" alt="">
                             </div>
                             <div class="card-body">
-                                <a class="d-block card-title" href="">
+                                <a class="d-block card-title" href="{{ path('blog.show', {id: post.id}) }}">
                                     <h2>{{ post.title }}</h2>
                                 </a>
                                 <p class="card-text">{{ post.content | truncate(250, true) | nl2br }}</p>
                                 <p class="card-muted">written on {{ post.createdAt | date("d F Y") }}</p>
-                                <button class="btn btn-primary">see more</button>
+                                <a class="btn btn-primary" href="{{ path('blog.show', {id: post.id}) }}">see more</a>
                             </div>
                         </div>
                     </div>
