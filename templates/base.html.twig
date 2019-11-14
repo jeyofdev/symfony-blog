@@ -2,13 +2,16 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}My personal blog{% endblock %}</title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('css/app') }}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+
+    <body class="d-flex flex-column">
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
         {% block javascripts %}
             {{ encore_entry_script_tags('js/app') }}
         {% endblock %}

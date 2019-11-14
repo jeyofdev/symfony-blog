@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() ~  " | List of posts" }}{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">{{ "List of blog posts" }}</h1>
+
+    <!-- list of posts -->
+    <div class="blog-list mt-75">
+        {% if posts is not empty %}
+            <div class="row mt-5">
+                {% for post in posts %}
+                    <div class="col-12 col-md-6 mb-5">
+                        <div class="card">
+                            <div class="card-header mb-2">
+                                <img class="img-fluid" src="https://via.placeholder.com/500x225" alt="">
+                            </div>
+                            <div class="card-body">
+                                <a class="d-block card-title" href="">
+                                    <h2>{{ post.title }}</h2>
+                                </a>
+                                <p class="card-text">{{ post.content | truncate(250, true) | nl2br }}</p>
+                                <p class="card-muted">written on {{ post.createdAt | date("d F Y") }}</p>
+                                <button class="btn btn-primary">see more</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+    </div>
+{% endblock %}
