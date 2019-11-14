@@ -1,0 +1,46 @@
+/// reset css
+///
+/// @param $outline property value outline
+/// @param $listStyle property value list-style
+///
+@mixin reset($outline: none, $listStyle: none) {
+    *,
+    *::before,
+    *::after,
+    *:focus,
+    *:active,
+    *:hover,
+    *:visited {
+        outline: $outline !important;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    ul,
+    li,
+    ol {
+        list-style: $listStyle;
+    }
+}
+
+
+
+/// convert px to rem
+///
+/// @param $size value in px to convert
+/// @param $base conversion base (default 16px = 1rem)
+@function rem($size, $base: 16) {
+    @return 1rem * $size / $base;
+}
+
+
+
+/// convert px to em
+///
+/// @param $size value in px to convert
+/// @param $base conversion base (default 16px = 1em)
+@function em($size, $base: 16) {
+    @return 1em * $size / $base;
+}

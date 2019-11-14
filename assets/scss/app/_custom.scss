@@ -1,0 +1,58 @@
+@include reset();
+
+
+
+/* =============
+    BUTTONS
+============ */
+.btn {
+    @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-line-height, $btn-border-radius);
+
+    &:focus { box-shadow: none; }
+
+    &.btn-outline-primary {
+        background: $gray-lighten;
+
+        &:hover,
+        &:focus {
+            background: $primary;
+            color: $gray-lighten;
+        }
+    }
+
+    &.btn-primary {
+        &:hover,
+        &:focus {
+            background: $white;
+            color: $primary;
+        }
+    }
+}
+
+
+
+/* ==========
+    TEXT
+========== */
+p {
+    font-size: $p-font-size;
+    line-height: rem(24);
+}
+
+
+
+/* ==============
+    HEADINGS
+============== */
+.container > h1 {
+    font-size: rem(40);
+}
+
+
+
+/* =========
+    FORM
+========= */
+form {
+    width: 100%;
+}

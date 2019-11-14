@@ -3,15 +3,18 @@
 {% block title %}{{ parent() }} | {{ post.title }}{% endblock %}
 
 {% block body %}
-    <div class="blog-single mt-5">
+    <div class="blog-single mt-50">
         <div class="card">
-            <div class="card-header mb-2">
+            <div class="card-header mb-80">
                 <img class="img-fluid" src="https://via.placeholder.com/1100x425" alt="">
             </div>
 
-            <div class="card-body">
-                <h1 class="card-title">{{ post.title }}</h1>
+            <div class="card-body mx-50">
+                <h1 class="card-title mb-35">{{ post.title | capitalize }}</h1>
                 <p class="card-text">{{ post.content | nl2br }}</p>
+            </div>
+
+            <div class="card-footer mx-50 mt-30 pt-30">
                 <p class="card-muted">written on {{ post.createdAt | date("d F Y") }}</p>
             </div>
         </div>

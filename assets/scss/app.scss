@@ -1,6 +1,12 @@
+// custom mixins
+@import "app/mixins";
+
+
 // custom libraries
 @import "lib/bootstrap";
 
 
 // app
+@import "app/font-face";
 @import "app/custom";
+@import "app/pages/blog";

@@ -1,1 +1,113 @@
-// variable overrides
+/* ============
+    COLORS
+============ */
+$white:       #fff !default;
+$black:       #000 !default;
+$gray:        #626262 !default;
+$gray-light:  #b4ad9e !default;
+$gray-lighten:#dddcd7 !default;
+
+$primary:   $gray !default;
+$secondary: $gray-light !default;
+
+$theme-colors: () !default;
+$theme-colors: map-merge(
+    (
+        "primary":    $primary,
+        "secondary":  $secondary
+    ),
+    $theme-colors
+);
+
+
+
+/* ===========
+    FONTS
+=========== */
+$font-family-sans-serif:        'Ubuntu', sans-serif !default;
+$font-family-serif:             'Playfair Display', serif !default;
+$font-family-base:              $font-family-sans-serif !default;
+
+$font-size-base:    rem(16, $base: 16) !default;
+$font-size:         $font-size-base !default;
+
+$h1-font-size:                rem(30) !default;
+$p-font-size:                 rem(14) !default;
+
+
+
+/* ==================
+    GRID COLUMNS
+================== */
+$grid-columns:                12 !default;
+$grid-gutter-width:           rem(30) !default;
+$grid-row-columns:            6 !default;
+
+
+
+/* =====================
+    GRID CONTAINERS
+===================== */
+$container-max-widths: (
+    sm: rem(540),
+    md: rem(720),
+    lg: rem(960),
+    xl: rem(1065)
+) !default;
+
+
+
+/* =============
+    SPACING
+============= */
+$spacer: 1rem !default;
+$spacers: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$spacers: map-merge(
+    (
+        0: 0,
+        1: ($spacer * .25),
+        2: ($spacer * .5),
+        3: $spacer,
+        4: ($spacer * 1.5),
+        5: ($spacer * 3),
+        30: rem(30),
+        35: rem(35),
+        50: rem(50),
+        75: rem(75),
+        80: rem(80),
+        90: rem(90),
+        95: rem(95),
+        100: rem(100),
+        125: rem(125),
+    ),
+    $spacers
+);
+
+
+
+/* ==========
+    BODY
+========== */
+$body-bg:        $white !default;
+$body-color:     $gray !default;
+
+
+
+/* ============
+    BUTTON
+============ */
+$btn-padding-y:               rem(10) !default;
+$btn-padding-x:               rem(20) !default;
+$btn-font-family:             $font-family-serif !default;
+$btn-font-size:               rem(20) !default;
+$btn-line-height:             rem(24) !default;
+$btn-border-width:            rem(1) !default;
+
+$btn-box-shadow:              none !default;
+$btn-focus-box-shadow:        none !default;
+$btn-active-box-shadow:       none !default;
+
+$btn-border-radius:           0 !default;
+$btn-border-radius-lg:        0 !default;
+$btn-border-radius-sm:        0 !default;

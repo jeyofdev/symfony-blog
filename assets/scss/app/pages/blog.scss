@@ -1,0 +1,76 @@
+.blog-single h1 {
+    font-size: rem(36);
+}
+
+
+
+/* ==========
+    CARD
+========== */
+.blog-list > .row .card {
+    padding-bottom: rem(25);
+    border-bottom: 1px solid $gray-lighten;
+}
+
+
+
+/* ==================
+    CARD COLUMNS
+================== */
+@include media-breakpoint-up(md) {
+    .blog-list .row > .col-md-6 {
+        &:nth-child(odd) {
+            margin-right: rem(15);
+            max-width: calc(50% - 15px);
+        }
+
+        &:nth-child(even) {
+            margin-left: rem(15);
+            max-width: calc(50% - 15px);
+        }
+    }
+}
+
+
+
+/* =================
+    CARD HEADER
+================= */
+.blog-list .card-header,
+.blog-single .card-header {
+    img {
+        width: 100%;
+    }
+}
+
+
+
+/* ================
+    CARD BODY
+================ */
+.blog-list .card-body,
+.blog-single .card-body {
+    .card-title,
+    .card-text {
+        font-family: $font-family-serif;
+    }
+}
+
+
+.blog-list .card-body {
+    .card-title {
+        &:hover,
+        &:focus {
+            color: $black;
+        }
+    }
+}
+
+
+
+/* =================
+    CARD FOOTER
+================= */
+.blog-single .card-footer {
+    border-top: 1px solid $gray-lighten;
+}
