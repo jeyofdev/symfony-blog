@@ -31,23 +31,65 @@ class BlogController extends AbstractController
         /**
          * @var Post[];
          */
-        $posts = $this->postRepository->findAllByDate("desc");
+        $posts = $this->postRepository->findAllBy("created_at", "desc");
         
-        // add categories associated with each posts
+        // add the categories associated with each posts
         foreach ($posts as $post) {
+            /**
+             * @var Category[]
+             */
             $categories = $this->categoryRepository->findCategoriesByPost($post);
             $post->getCategories()->hydrateAdd($categories);
         }
 
         // the paginated posts
         $posts = $paginator->paginate(
-            $this->postRepository->findAllByDate("desc"),
+            $this->postRepository->findAllBy("created_at", "desc"),
             $request->query->getInt('page', 1),
             6
         );
 
         return $this->render('blog/index.html.twig', [
             "posts" => $posts
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/blog/category/{id}", name="blog.category.index")
+     */
+    public function category(int $id, PaginatorInterface $paginator, Request $request) : Response
+    {
+        /**
+         * @var Category
+         */
+        $currentCategory = $this->categoryRepository->find($id);
+        
+        /**
+         * @var Post[];
+         */
+        $posts = $this->postRepository->findPostsByCategory($currentCategory, "created_at", "desc");
+        
+        // add the categories associated with each posts
+        foreach ($posts as $post) {
+            /**
+             * @var Category[]
+             */
+            $categories = $this->categoryRepository->findCategoriesByPost($post);
+            $post->getCategories()->hydrateAdd($categories);
+        }
+
+        // the paginated posts
+        $posts = $paginator->paginate(
+            $this->postRepository->findPostsByCategory($currentCategory, "created_at", "desc"),
+            $request->query->getInt('page', 1),
+            6
+        );
+
+        return $this->render('blog/category.html.twig', [
+            "posts" => $posts,
+            "currentCategory" => $currentCategory
         ]);
     }
 

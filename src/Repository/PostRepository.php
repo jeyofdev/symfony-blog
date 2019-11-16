@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -21,21 +22,28 @@ class PostRepository extends ServiceEntityRepository
 
 
     /**
-     * @return Post[] Returns an array of all Post objects ordered by created_at
+     * @return Post[] Returns an array of all Post objects
      */
-    public function findAllByDate(string $direction = "ASC")
+    public function findAllBy(string $orderBy, string $order = 'asc')
     {
-        return $this->findAllBy('p.created_at', $direction);
+        return $this->createQueryBuilder('p')
+            ->orderBy($orderBy, $order)
+            ->orderBy("p.$orderBy", $order)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 
     /**
-     * @return Post[] Returns an array of all Post objects
+     * @return Post[] Returns an array of each Post object that corresponds to a Category object
      */
-    private function findAllBy(string $orderBy, string $direction = "ASC")
+    public function findPostsByCategory(Category $category, string $orderBy, string $order = 'asc')
     {
         return $this->createQueryBuilder('p')
-            ->orderBy($orderBy, $direction)
+            ->join('p.categories', 'c')
+            ->where("c.id = {$category->getId()}")
+            ->orderBy("p.$orderBy", $order)
             ->getQuery()
             ->getResult()
         ;
