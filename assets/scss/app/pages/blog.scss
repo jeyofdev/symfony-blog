@@ -50,6 +50,17 @@
 ================ */
 .blog-list .card-body,
 .blog-single .card-body {
+    .categories {
+        color: $secondary !important;
+
+        a {
+            color: $secondary !important;
+            text-transform: uppercase;
+            font-family: $font-family-sans-serif;
+            font-size: rem(14);
+        }
+    }
+
     .card-title,
     .card-text {
         font-family: $font-family-serif;

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Knp\Component\Pager\PaginatorInterface;
@@ -13,9 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
 {
-    public function __construct (PostRepository $repository, ObjectManager $entityManager)
+    public function __construct (PostRepository $postRepository, CategoryRepository $categoryRepository, ObjectManager $entityManager)
     {
-        $this->repository = $repository;
+        $this->postRepository = $postRepository;
+        $this->categoryRepository = $categoryRepository;
         $this->entityManager = $entityManager;
     }
 
@@ -26,9 +28,20 @@ class BlogController extends AbstractController
      */
     public function index(PaginatorInterface $paginator, Request $request) : Response
     {
+        /**
+         * @var Post[];
+         */
+        $posts = $this->postRepository->findAllByDate("desc");
+        
+        // add categories associated with each posts
+        foreach ($posts as $post) {
+            $categories = $this->categoryRepository->findCategoriesByPost($post);
+            $post->getCategories()->hydrateAdd($categories);
+        }
+
         // the paginated posts
         $posts = $paginator->paginate(
-            $this->repository->findAllBy(),
+            $this->postRepository->findAllByDate("desc"),
             $request->query->getInt('page', 1),
             6
         );
@@ -46,7 +59,7 @@ class BlogController extends AbstractController
     public function show (int $id) : Response
     {
         // the current post
-        $post = $this->repository->find($id);
+        $post = $this->postRepository->find($id);
 
         return $this->render('blog/show.html.twig', [
             "post" => $post

@@ -21,12 +21,21 @@ class PostRepository extends ServiceEntityRepository
 
 
     /**
-     * @return Post[] Returns an array of Post objects from newest to oldest
+     * @return Post[] Returns an array of all Post objects ordered by created_at
      */
-    public function findAllBy()
+    public function findAllByDate(string $direction = "ASC")
+    {
+        return $this->findAllBy('p.created_at', $direction);
+    }
+
+
+    /**
+     * @return Post[] Returns an array of all Post objects
+     */
+    private function findAllBy(string $orderBy, string $direction = "ASC")
     {
         return $this->createQueryBuilder('p')
-            ->orderBy('p.created_at', 'DESC')
+            ->orderBy($orderBy, $direction)
             ->getQuery()
             ->getResult()
         ;
