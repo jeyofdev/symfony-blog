@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/global.html.twig' as global %}
+{% import 'macro/list-posts.html.twig' as listPosts %}
+
+{% block title %}{{ parent() ~  " | Administration of posts" }}{% endblock %}
+
+{% block body %}
+    {{ global.pageTitle("Administration of posts") }}
+
+    {% if posts is not empty %}
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Created_at</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for post in posts %}
+                    <tr>
+                        <th scope="row">{{ post.id }}</th>
+                        <td>
+                            <a href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">{{ post.title | capitalize }}</a>
+                        </td>
+                        <td>{{ post.createdAt | date("d F Y") }}</td>
+                        <td>
+                            <a class="btn btn-outline-info rounded" href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">View</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {{ listPosts.pagination(posts) }}
+    {% else %}
+        <div class="text-center alert alert-danger">
+            <h4 class="text-center">No posts available</h4>
+        </div>
+    {% endif %}
+{% endblock %}

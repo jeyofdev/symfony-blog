@@ -19,7 +19,7 @@
 
 // Optional (files we need)
 // @import "~bootstrap/scss/code";
-// @import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/tables";
 // @import "~bootstrap/scss/forms";
 @import "~bootstrap/scss/buttons";
 
@@ -34,7 +34,7 @@
 @import "~bootstrap/scss/pagination";
 // @import "~bootstrap/scss/badge";
 // @import "~bootstrap/scss/jumbotron";
-// @import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/alert";
 // @import "~bootstrap/scss/progress";
 // @import "~bootstrap/scss/media";
 // @import "~bootstrap/scss/list-group";

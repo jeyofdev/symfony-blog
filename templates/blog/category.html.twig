@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
-{% import 'macro-list-posts.html.twig' as listPosts %}
+{% import 'macro/global.html.twig' as global %}
+{% import 'macro/list-posts.html.twig' as listPosts %}
 
 {% block title %}{{ parent() ~  " | list of posts from the category : " ~ currentCategory.title }}{% endblock %}
 
 {% block body %}
-    <h1 class="text-center">{{ "list of posts from the category : " ~ currentCategory.title }}</h1>
+    {{ global.pageTitle("list of posts from the category : " ~ currentCategory.title) }}
 
     <!-- list of posts -->
     {{ listPosts.list(posts) }}

@@ -26,7 +26,7 @@ class BlogController extends AbstractController
 
 
     /**
-     * @Route("/blog", name="blog.index")
+     * @Route("/blog", name="blog.index", methods={"GET"})
      */
     public function index(PaginatorInterface $paginator, Request $request) : Response
     {
@@ -59,7 +59,7 @@ class BlogController extends AbstractController
 
 
     /**
-     * @Route("/blog/category/{slug}-{id}", name="blog.category.index", requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
+     * @Route("/blog/category/{slug}-{id}", name="blog.category.index", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
      */
     public function category(Category $category, string $slug, PaginatorInterface $paginator, Request $request) : Response
     {
@@ -101,7 +101,7 @@ class BlogController extends AbstractController
 
 
     /**
-     * @Route("/blog/{slug}-{id}", name="blog.show", requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
+     * @Route("/blog/{slug}-{id}", name="blog.show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
      */
     public function show (Post $post, string $slug) : Response
     {
