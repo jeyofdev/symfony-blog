@@ -25,7 +25,9 @@ class PostFixtures extends Fixture
         // add the categories
         for ($i = 0; $i < 5; $i++) { 
             $category = new Category();
-            $category->setTitle($faker->words(3, true));
+            $category
+                ->setTitle($faker->words(3, true))
+                ->setSlug();
 
             $manager->persist($category);
 
@@ -39,7 +41,8 @@ class PostFixtures extends Fixture
             $post
                 ->setTitle($faker->words(3, true))
                 ->setContent($faker->paragraphs(rand(5, 20), true))
-                ->setCreatedAt($faker->dateTimeBetween("-3 years"));
+                ->setCreatedAt($faker->dateTimeBetween("-3 years"))
+                ->setSlug();
 
             $countCategories = count($this->categories);
             $indexesPostCategories = array_rand($this->categories, mt_rand(1, $countCategories));

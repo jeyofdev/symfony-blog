@@ -13,7 +13,7 @@
                 {% if post.categories.values is not empty %}
                     <p class="mb-30 categories">
                         {% for key, category in post.categories.values %}
-                            <a href="{{ path('blog.category.index', {id: category.id}) }}">{{ category.title }}</a>{% if key != (post.categories.values | length - 1) %}{{', '}}{% endif %}
+                            <a href="{{ path('blog.category.index', {id: category.id, slug: category.slug}) }}">{{ category.title }}</a>{% if key != (post.categories.values | length - 1) %}{{', '}}{% endif %}
                         {% endfor %}
                     </p>
                 {% endif %}

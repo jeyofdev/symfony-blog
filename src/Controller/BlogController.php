@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
+use App\Entity\Post;
 use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -57,19 +59,22 @@ class BlogController extends AbstractController
 
 
     /**
-     * @Route("/blog/category/{id}", name="blog.category.index")
+     * @Route("/blog/category/{slug}-{id}", name="blog.category.index", requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
      */
-    public function category(int $id, PaginatorInterface $paginator, Request $request) : Response
+    public function category(Category $category, string $slug, PaginatorInterface $paginator, Request $request) : Response
     {
-        /**
-         * @var Category
-         */
-        $currentCategory = $this->categoryRepository->find($id);
-        
+        // check if the slug of the current category exist
+        if($category->getSlug() !== $slug){
+            return $this->redirectToRoute("blog.category.index", [
+                "id" => $category->getId(),
+                "slug" => $category->getSlug()
+            ], 301);
+        }
+
         /**
          * @var Post[];
          */
-        $posts = $this->postRepository->findPostsByCategory($currentCategory, "created_at", "desc");
+        $posts = $this->postRepository->findPostsByCategory($category, "created_at", "desc");
         
         // add the categories associated with each posts
         foreach ($posts as $post) {
@@ -82,26 +87,31 @@ class BlogController extends AbstractController
 
         // the paginated posts
         $posts = $paginator->paginate(
-            $this->postRepository->findPostsByCategory($currentCategory, "created_at", "desc"),
+            $this->postRepository->findPostsByCategory($category, "created_at", "desc"),
             $request->query->getInt('page', 1),
             6
         );
 
         return $this->render('blog/category.html.twig', [
             "posts" => $posts,
-            "currentCategory" => $currentCategory
+            "currentCategory" => $category
         ]);
     }
 
 
 
     /**
-     * @Route("/blog/{id}", name="blog.show")
+     * @Route("/blog/{slug}-{id}", name="blog.show", requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
      */
-    public function show (int $id) : Response
+    public function show (Post $post, string $slug) : Response
     {
-        // the current post
-        $post = $this->postRepository->find($id);
+        // check if the slug of the current post exist
+        if($post->getSlug() !== $slug){
+            return $this->redirectToRoute("blog.show", [
+                "id" => $post->getId(),
+                "slug" => $post->getSlug()
+            ], 301);
+        }
 
         return $this->render('blog/show.html.twig', [
             "post" => $post
