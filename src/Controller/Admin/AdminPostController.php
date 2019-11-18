@@ -16,9 +16,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminPostController extends AbstractController
 {
-    public function __construct (PostRepository $postRepository, ObjectManager $entityManager)
+    public function __construct (PostRepository $repository, ObjectManager $entityManager)
     {
-        $this->postRepository = $postRepository;
+        $this->repository = $repository;
         $this->entityManager = $entityManager;
     }
 
@@ -31,7 +31,7 @@ class AdminPostController extends AbstractController
     {
         // the paginated posts
         $posts = $paginator->paginate(
-            $this->postRepository->findAllBy("created_at", "desc"),
+            $this->repository->findAllBy("created_at", "desc"),
             $request->query->getInt('page', 1),
             5
         );
@@ -64,13 +64,13 @@ class AdminPostController extends AbstractController
 
             $this->entityManager->persist($post);
             $this->entityManager->flush();
-            $this->addFlash('success', 'Your post has been added');
+            $this->addFlash('success', 'The post has been added');
 
             return $this->redirectToRoute('admin.post.index');
         }
 
         return $this->render('admin/post/new.html.twig', [
-            'posts' => $post,
+            'post' => $post,
             'form' => $form->createView()
         ]);
     }
@@ -95,7 +95,7 @@ class AdminPostController extends AbstractController
 
             $this->entityManager->persist($post);
             $this->entityManager->flush();
-            $this->addFlash('success', 'Your post has been updated');
+            $this->addFlash('success', 'The post has been updated');
 
             return $this->redirectToRoute('admin.post.index');
         }
@@ -118,7 +118,7 @@ class AdminPostController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash('success', 'The post has been deleted');
         } else {
-            $this->addFlash('danger', 'You are not authorized to delete this article');
+            $this->addFlash('danger', 'You are not authorized to delete this post');
         }
 
         return $this->redirectToRoute('admin.post.index');

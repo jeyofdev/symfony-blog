@@ -18,45 +18,47 @@
 
     <a class="btn btn-outline-primary my-5" href="{{ path('admin.post.new')}}">Add a new post</a>
 
-    {% if posts is not empty %}
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Creation</th>
-                    <th scope="col">Last update</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for post in posts %}
+    <div class="admin-list">
+        {% if posts is not empty %}
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
-                        <th scope="row">{{ post.id }}</th>
-                        <td>
-                            <a href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">{{ post.title | capitalize }}</a>
-                        </td>
-                        <td>{{ post.createdAt | date("d F Y") }}</td>
-                        <td>{{ post.updatedAt | date("d F Y") }}</td>
-                        <td>
-                            <a class="btn btn-outline-info rounded" href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">View</a>
-                            <a class="btn btn-outline-success rounded" href="{{ path('admin.post.update', {id: post.id}) }}">Edit</a>
-                            <form method="post" action="{{ path('admin.post.delete', {'id': post.id}) }}" onsubmit="return confirm('Are you sure you want to delete this post ?');">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
-                                <button class="btn btn-outline-danger rounded" >Delete</button>
-                            </form>                            
-                        </td>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Creation</th>
+                        <th scope="col">Last update</th>
+                        <th scope="col">Action</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
 
-        {{ listPosts.pagination(posts) }}
-    {% else %}
-        <div class="text-center alert alert-danger">
-            <h4 class="text-center">No posts available</h4>
-        </div>
-    {% endif %}
+                <tbody>
+                    {% for post in posts %}
+                        <tr>
+                            <th scope="row">{{ post.id }}</th>
+                            <td>
+                                <a href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">{{ post.title | capitalize }}</a>
+                            </td>
+                            <td>{{ post.createdAt | date("d F Y") }}</td>
+                            <td>{{ post.updatedAt | date("d F Y") }}</td>
+                            <td>
+                                <a class="btn btn-outline-info rounded" href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">View</a>
+                                <a class="btn btn-outline-success rounded" href="{{ path('admin.post.update', {id: post.id}) }}">Update</a>
+                                <form method="post" action="{{ path('admin.post.delete', {'id': post.id}) }}" onsubmit="return confirm('Are you sure you want to delete this post ?');">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+                                    <button class="btn btn-outline-danger rounded" >Delete</button>
+                                </form>                            
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {{ listPosts.pagination(posts) }}
+        {% else %}
+            <div class="text-center alert alert-danger">
+                <h4 class="text-center">No posts available</h4>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/global.html.twig' as global %}
+
+{% block title %}{{ parent() ~  " | Update the category with the id " ~ category.id }}{% endblock %}
+
+{% block body %}
+    {{ global.pageTitle("Update the category with the id " ~ category.id) }}
+
+    {{ include ("admin/category/parts/_form.html.twig", {button_label: 'Update'}) }}
+{% endblock %}

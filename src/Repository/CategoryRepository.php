@@ -22,6 +22,19 @@ class CategoryRepository extends ServiceEntityRepository
 
 
     /**
+     * @return Post[] Returns an array of all Category objects
+     */
+    public function findAllBy(string $orderBy, string $order = 'asc')
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy("c.$orderBy", $order)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+    /**
      * @return Category[] Returns an array of each Category object that corresponds to a post object
      */
     public function findCategoriesByPost(Post $post)

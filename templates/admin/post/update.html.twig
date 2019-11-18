@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 {% import 'macro/global.html.twig' as global %}
 
-{% block title %}{{ parent() ~  " | Edit the post with the id " ~ post.id }}{% endblock %}
+{% block title %}{{ parent() ~  " | Update the post with the id " ~ post.id }}{% endblock %}
 
 {% block body %}
-    {{ global.pageTitle("Edit the post with the id " ~ post.id) }}
+    {{ global.pageTitle("Update the post with the id " ~ post.id) }}
 
     {{ include ("admin/post/parts/_form.html.twig", {button_label: 'Update'}) }}
 {% endblock %}

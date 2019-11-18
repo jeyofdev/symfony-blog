@@ -27,7 +27,6 @@ class PostRepository extends ServiceEntityRepository
     public function findAllBy(string $orderBy, string $order = 'asc')
     {
         return $this->createQueryBuilder('p')
-            ->orderBy($orderBy, $order)
             ->orderBy("p.$orderBy", $order)
             ->getQuery()
             ->getResult()
