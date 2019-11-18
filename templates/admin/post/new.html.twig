@@ -6,8 +6,5 @@
 {% block body %}
     {{ global.pageTitle("Add a new post") }}
 
-    {{ form_start(form) }}
-        {{ form_rest(form) }}
-        <button class="btn btn-primary">{{ button_label | default('Add') }}</button>
-    {{ form_end(form) }}
+    {{ include ("admin/post/parts/_form.html.twig", {button_label: 'Add'}) }}
 {% endblock %}

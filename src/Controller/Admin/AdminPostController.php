@@ -73,4 +73,30 @@ class AdminPostController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+
+
+    /**
+     * @Route("/admin/post/update/{id}", name="admin.post.update", methods={"GET", "POST"})
+     */
+    public function update (Post $post, Request $request) : response
+    {
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post->setSlug();
+
+            $this->entityManager->persist($post);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Your post has been updated');
+
+            return $this->redirectToRoute('admin.post.index');
+        }
+
+        return $this->render('admin/post/update.html.twig', [
+            'post' => $post,
+            'form' => $form->createView()
+        ]);
+    }
 }

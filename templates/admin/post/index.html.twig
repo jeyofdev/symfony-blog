@@ -37,6 +37,7 @@
                         <td>{{ post.createdAt | date("d F Y") }}</td>
                         <td>
                             <a class="btn btn-outline-info rounded" href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">View</a>
+                            <a class="btn btn-outline-success rounded" href="{{ path('admin.post.update', {id: post.id}) }}">Edit</a>
                         </td>
                     </tr>
                 {% endfor %}
