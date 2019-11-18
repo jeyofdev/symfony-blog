@@ -22,7 +22,8 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Created_at</th>
+                    <th scope="col">Creation</th>
+                    <th scope="col">Last update</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -35,6 +36,7 @@
                             <a href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">{{ post.title | capitalize }}</a>
                         </td>
                         <td>{{ post.createdAt | date("d F Y") }}</td>
+                        <td>{{ post.updatedAt | date("d F Y") }}</td>
                         <td>
                             <a class="btn btn-outline-info rounded" href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">View</a>
                             <a class="btn btn-outline-success rounded" href="{{ path('admin.post.update', {id: post.id}) }}">Edit</a>

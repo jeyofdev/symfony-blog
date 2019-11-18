@@ -52,6 +52,12 @@ class Post
 
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
@@ -112,6 +118,20 @@ class Post
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+
+    public function getupdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+
+    public function setupdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

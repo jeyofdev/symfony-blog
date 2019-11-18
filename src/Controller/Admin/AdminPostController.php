@@ -85,7 +85,12 @@ class AdminPostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->setSlug();
+            $timeZone = new DateTimeZone('Europe/Paris');
+            $updatedAt = new DateTime('now', $timeZone);
+
+            $post
+                ->setUpdatedAt($updatedAt)
+                ->setSlug();
 
             $this->entityManager->persist($post);
             $this->entityManager->flush();
