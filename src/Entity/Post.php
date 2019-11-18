@@ -39,7 +39,7 @@ class Post
      * @Assert\NotBlank
      * @Assert\Length(
      *      min = 20,
-     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      minMessage = "Your first name must be at least {{ limit }} characters long"
      * )
      */
     private $content;
