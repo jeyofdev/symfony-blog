@@ -59,6 +59,7 @@ class AdminPostController extends AbstractController
 
             $post
                 ->setCreatedAt($createdAt)
+                ->setUpdatedAt($createdAt)
                 ->setSlug();
 
             $this->entityManager->persist($post);
@@ -103,5 +104,23 @@ class AdminPostController extends AbstractController
             'post' => $post,
             'form' => $form->createView()
         ]);
+    }
+
+
+
+    /**
+     * @Route("/admin/post/delete/{id}", name="admin.post.delete", methods={"DELETE"})
+     */
+    public function delete (Post $post, Request $request) : response
+    {
+        if($this->isCsrfTokenValid('delete' . $post->getId(), $request->get('_token'))) {
+            $this->entityManager->remove($post);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'The post has been deleted');
+        } else {
+            $this->addFlash('danger', 'You are not authorized to delete this article');
+        }
+
+        return $this->redirectToRoute('admin.post.index');
     }
 }
