@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/global.html.twig' as global %}
+
+{% block title %}{{ parent() ~  " | Add a new post" }}{% endblock %}
+
+{% block body %}
+    {{ global.pageTitle("Add a new post") }}
+
+    {{ form_start(form) }}
+        {{ form_rest(form) }}
+        <button class="btn btn-primary">{{ button_label | default('Add') }}</button>
+    {{ form_end(form) }}
+{% endblock %}

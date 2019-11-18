@@ -7,6 +7,15 @@
 {% block body %}
     {{ global.pageTitle("Administration of posts") }}
 
+    {# flash message #}
+    {% for message in app.flashes('success') %}
+        <p class="alert alert-success mt-5">
+            {{ message }}
+        </p>
+    {% endfor %}
+
+    <a class="btn btn-outline-primary my-5" href="{{ path('admin.post.new')}}">Add a new post</a>
+
     {% if posts is not empty %}
         <table class="table">
             <thead class="thead-dark">
