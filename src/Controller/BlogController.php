@@ -26,7 +26,7 @@ class BlogController extends AbstractController
 
 
     /**
-     * @Route("/blog", name="blog.index", methods={"GET"})
+     * @Route("/blog", name="blog", methods={"GET"})
      */
     public function index(PaginatorInterface $paginator, Request $request) : Response
     {
