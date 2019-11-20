@@ -23,7 +23,7 @@ class AdminCategoryController extends AbstractController
 
 
     /**
-     * @Route("/admin/category", name="admin.category.index", methods={"GET"})
+     * @Route("/admin/category", name="admin.category", methods={"GET"})
      */
     public function index(PaginatorInterface $paginator, Request $request) : Response
     {
@@ -62,7 +62,7 @@ class AdminCategoryController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash('success', 'The category has been added');
 
-            return $this->redirectToRoute('admin.category.index');
+            return $this->redirectToRoute('admin.category');
         }
 
         return $this->render('admin/category/new.html.twig', [
@@ -90,7 +90,7 @@ class AdminCategoryController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash('success', 'The category has been updated');
 
-            return $this->redirectToRoute('admin.category.index');
+            return $this->redirectToRoute('admin.category');
         }
 
         return $this->render('admin/category/update.html.twig', [
@@ -116,6 +116,6 @@ class AdminCategoryController extends AbstractController
             $this->addFlash('danger', 'You are not authorized to delete this category');
         }
 
-        return $this->redirectToRoute('admin.category.index');
+        return $this->redirectToRoute('admin.category');
     }
 }

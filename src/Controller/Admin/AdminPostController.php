@@ -25,7 +25,7 @@ class AdminPostController extends AbstractController
 
 
     /**
-     * @Route("/admin/post", name="admin.post.index", methods={"GET"})
+     * @Route("/admin/post", name="admin.post", methods={"GET"})
      */
     public function index(PaginatorInterface $paginator, Request $request) : Response
     {
@@ -70,7 +70,7 @@ class AdminPostController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash('success', 'The post has been added');
 
-            return $this->redirectToRoute('admin.post.index');
+            return $this->redirectToRoute('admin.post');
         }
 
         return $this->render('admin/post/new.html.twig', [
@@ -103,7 +103,7 @@ class AdminPostController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash('success', 'The post has been updated');
 
-            return $this->redirectToRoute('admin.post.index');
+            return $this->redirectToRoute('admin.post');
         }
 
         return $this->render('admin/post/update.html.twig', [
@@ -129,6 +129,6 @@ class AdminPostController extends AbstractController
             $this->addFlash('danger', 'You are not authorized to delete this post');
         }
 
-        return $this->redirectToRoute('admin.post.index');
+        return $this->redirectToRoute('admin.post');
     }
 }
