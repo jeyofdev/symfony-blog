@@ -1,0 +1,27 @@
+{% import 'blog/parts/macro-list-posts.html.twig' as listPosts %}
+
+
+{# list of posts #}
+<div class="blog-list mt-75">
+    {% if posts is not empty %}
+        <div class="row mt-5">
+            {% for key, post in posts %}
+                {% if key is same as (0) %}
+                    <div class="col-12 mb-80">
+                        <div class="card">
+                            {{ listPosts.header() }}
+                            {{ listPosts.content(post) }}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12 col-md-6 mb-80">
+                        <div class="card">
+                            {{ listPosts.header() }}
+                            {{ listPosts.content(post) }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

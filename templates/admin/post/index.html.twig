@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 {% import 'macro/global.html.twig' as global %}
-{% import 'macro/list-posts.html.twig' as listPosts %}
 
 {% block title %}{{ parent() ~  " | Administration of posts" }}{% endblock %}
 
@@ -54,7 +53,7 @@
                 </tbody>
             </table>
 
-            {{ listPosts.pagination(posts) }}
+            {{ global.pagination(posts) }}
         {% else %}
             <div class="text-center alert alert-danger">
                 <h4 class="text-center">No posts available</h4>

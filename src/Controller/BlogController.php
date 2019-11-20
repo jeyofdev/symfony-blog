@@ -48,7 +48,7 @@ class BlogController extends AbstractController
         $posts = $paginator->paginate(
             $this->postRepository->findAllBy("created_at", "desc"),
             $request->query->getInt('page', 1),
-            6
+            7
         );
 
         return $this->render('blog/index.html.twig', [
@@ -89,7 +89,7 @@ class BlogController extends AbstractController
         $posts = $paginator->paginate(
             $this->postRepository->findPostsByCategory($category, "created_at", "desc"),
             $request->query->getInt('page', 1),
-            6
+            7
         );
 
         return $this->render('blog/category.html.twig', [

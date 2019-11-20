@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'macro/global.html.twig' as global %}
-{% import 'macro/list-posts.html.twig' as listPosts %}
+{% import 'blog/parts/macro-list-posts.html.twig' as listPosts %}
 
 {% block title %}{{ parent() ~  " | List of posts" }}{% endblock %}
 
@@ -8,6 +8,6 @@
     {{ global.pageTitle("List of blog posts") }}
 
     <!-- list of posts -->
-    {{ listPosts.list(posts) }}
-    {{ listPosts.pagination(posts) }}
+    {{ include ("blog/parts/_list.html.twig") }}
+    {{ global.pagination(posts) }}
 {% endblock %}
