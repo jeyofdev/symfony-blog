@@ -29,6 +29,8 @@ class AdminPostController extends AbstractController
      */
     public function index(PaginatorInterface $paginator, Request $request) : Response
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
+
         // the paginated posts
         $posts = $paginator->paginate(
             $this->repository->findAllBy("created_at", "desc"),
@@ -48,6 +50,8 @@ class AdminPostController extends AbstractController
      */
     public function new (Request $request) : response
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
+
         $post = new Post();
 
         $form = $this->createForm(PostType::class, $post);
@@ -82,6 +86,8 @@ class AdminPostController extends AbstractController
      */
     public function update (Post $post, Request $request) : response
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
+
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
@@ -113,6 +119,8 @@ class AdminPostController extends AbstractController
      */
     public function delete (Post $post, Request $request) : response
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
+
         if($this->isCsrfTokenValid('delete' . $post->getId(), $request->get('_token'))) {
             $this->entityManager->remove($post);
             $this->entityManager->flush();

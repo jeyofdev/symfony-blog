@@ -26,11 +26,7 @@ class UserFixtures extends Fixture
     {
         $faker = Factory::create();
 
-        // admin user
-        $user = new User();
-        $user
-            ->setUsername('admin')
-            ->setPassword($this->encoder->encodePassword($user, 'admin'));
+        $roles = ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN'];
 
         // random user
         for ($i = 0; $i < 10; $i++) {
@@ -39,6 +35,7 @@ class UserFixtures extends Fixture
             $user = new User();
             $user
                 ->setUsername($username)
+                ->setRoles($faker->randomElements($roles, 1))
                 ->setPassword($this->encoder->encodePassword($user, $username));
             $manager->persist($user);
         }

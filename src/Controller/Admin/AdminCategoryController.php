@@ -27,6 +27,8 @@ class AdminCategoryController extends AbstractController
      */
     public function index(PaginatorInterface $paginator, Request $request) : Response
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
+
         // the paginated categories
         $categories = $paginator->paginate(
             $this->repository->findAllBy("id", "desc"),
@@ -46,6 +48,8 @@ class AdminCategoryController extends AbstractController
      */
     public function new (Request $request) : response
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
+
         $category = new Category();
 
         $form = $this->createForm(CategoryType::class, $category);
@@ -74,6 +78,8 @@ class AdminCategoryController extends AbstractController
      */
     public function update (Category $category, Request $request) : response
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
+
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
@@ -100,6 +106,8 @@ class AdminCategoryController extends AbstractController
      */
     public function delete (Category $category, Request $request) : response
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
+
         if($this->isCsrfTokenValid('delete' . $category->getId(), $request->get('_token'))) {
             $this->entityManager->remove($category);
             $this->entityManager->flush();
