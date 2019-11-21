@@ -43,7 +43,8 @@ class PostFixtures extends Fixture
                 ->setContent($faker->paragraphs(rand(5, 20), true))
                 ->setCreatedAt($faker->dateTimeBetween("-3 years"))
                 ->setUpdatedAt($post->getCreatedAt())
-                ->setSlug();
+                ->setSlug()
+                ->setPublished(rand(0, 1));
 
             $countCategories = count($this->categories);
             $indexesPostCategories = array_rand($this->categories, mt_rand(1, $countCategories));

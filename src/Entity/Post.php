@@ -64,6 +64,12 @@ class Post
 
 
     /**
+     * @ORM\Column(type="smallint")
+     */
+    private $published;
+
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="posts")
      */
     private $categories;
@@ -146,6 +152,20 @@ class Post
     public function setSlug(): self
     {
         $this->slug = (new Slugify())->slugify($this->title);
+
+        return $this;
+    }
+
+
+    public function getPublished(): ?int
+    {
+        return $this->published;
+    }
+
+
+    public function setPublished(int $published): self
+    {
+        $this->published = $published;
 
         return $this;
     }
