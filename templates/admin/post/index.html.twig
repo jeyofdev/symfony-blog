@@ -40,7 +40,11 @@
                             <td>{{ post.createdAt | date("d F Y") }}</td>
                             <td>{{ post.updatedAt | date("d F Y") }}</td>
                             <td>
-                                <a class="btn btn-outline-info rounded" href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">View</a>
+                                {% if post.published is same as (0) %}
+                                    <a class="btn btn-outline-info rounded" href="{{ path('admin.post.publish', {id: post.id}) }}">Publish</a>
+                                {% else %}
+                                    <a class="btn btn-outline-info rounded" href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">View</a>
+                                {% endif %}
                                 <a class="btn btn-outline-success rounded" href="{{ path('admin.post.update', {id: post.id}) }}">Update</a>
                                 <form method="post" action="{{ path('admin.post.delete', {'id': post.id}) }}" onsubmit="return confirm('Are you sure you want to delete this post ?');">
                                     <input type="hidden" name="_method" value="DELETE">

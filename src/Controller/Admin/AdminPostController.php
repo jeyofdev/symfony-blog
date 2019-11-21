@@ -131,4 +131,22 @@ class AdminPostController extends AbstractController
 
         return $this->redirectToRoute('admin.post');
     }
+
+
+
+    /**
+     * @Route("/admin/post/publish/{id}", name="admin.post.publish", methods={"GET"})
+     */
+    public function publish (Post $post)
+    {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
+
+        $post->setPublished(1);
+        $this->entityManager->persist($post);
+        $this->entityManager->flush();
+
+        $this->addFlash('success', 'The post has been published');
+
+        return $this->redirectToRoute('admin.post');
+    }
 }

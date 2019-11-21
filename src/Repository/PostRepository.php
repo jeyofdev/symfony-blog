@@ -49,13 +49,28 @@ class PostRepository extends ServiceEntityRepository
 
 
     /**
+     * @return Post[] Returns an array of all Post published objects
+     */
+    public function findPublishedBy(string $orderBy, string $order = 'asc')
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.published = 1')
+            ->orderBy("p.$orderBy", $order)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+    /**
      * @return Post[] Returns an array of each Post object that corresponds to a Category object
      */
     public function findPostsByCategory(Category $category, string $orderBy, string $order = 'asc')
     {
         return $this->createQueryBuilder('p')
             ->join('p.categories', 'c')
-            ->where('c.id = :id')
+            ->andWhere('c.id = :id')
+            ->andWhere('p.published = 1')
             ->setParameter('id', $category->getId())
             ->orderBy("p.$orderBy", $order)
             ->getQuery()

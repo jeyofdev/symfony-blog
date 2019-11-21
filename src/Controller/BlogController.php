@@ -33,7 +33,7 @@ class BlogController extends AbstractController
         /**
          * @var Post[];
          */
-        $posts = $this->postRepository->findAllBy("created_at", "desc");
+        $posts = $this->postRepository->findPublishedBy("created_at", "desc");
         
         // add the categories associated with each posts
         foreach ($posts as $post) {
@@ -46,7 +46,7 @@ class BlogController extends AbstractController
 
         // the paginated posts
         $posts = $paginator->paginate(
-            $this->postRepository->findAllBy("created_at", "desc"),
+            $this->postRepository->findPublishedBy("created_at", "desc"),
             $request->query->getInt('page', 1),
             7
         );
@@ -120,8 +120,8 @@ class BlogController extends AbstractController
 
         // get the ids of the last posts
         $ids = [];
-        foreach ($lastPosts as $post) {
-            $ids[] = $post->getId();
+        foreach ($lastPosts as $item) {
+            $ids[] = $item->getId();
         }
 
         // get a random posts
