@@ -29,7 +29,7 @@
 
 
     <!-- the related posts -->
-    <div class="blog-related mt-125 mb-80 mx-50">
+    <div class="blog-related mt-125 mx-50">
         <h4 class="text-secondary bloc-title mb-35">You may also like</h4>
         <div class="row">
             {% for relatedPost in relatedPosts %}
@@ -41,6 +41,33 @@
                             <a class="d-block card-title" href="{{ path('blog.show', {id: relatedPost.id, slug: relatedPost.slug}) }}">
                                 <h3>{{ relatedPost.title | capitalize }}</h3>
                             </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <!--  the post comments -->
+    <div class="blog-comment mt-75 mx-50">
+        <h4 class="text-secondary bloc-title mb-35">
+            {% if post.comments | length is same as (0) %}
+                {{ 'No comments' }}
+            {% elseif post.comments | length is same as (1) %}
+                {{ post.comments | length ~ " comment" }}
+            {% else %}
+                {{ post.comments | length ~ " comments" }}
+            {% endif %}
+        </h4>
+
+        <div class="row">
+            {% for comment in post.comments %}
+                <div class="col-12 comment mb-30">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-title">{{ comment.user }} (<small>{{ comment.createdAt | date("d/m/Y à H:i:s") }}</small>)</p>
+                            <p class="card-text">{{ comment.content | raw }}</p>
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Post;
 use App\Repository\CategoryRepository;
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Knp\Component\Pager\PaginatorInterface;
@@ -16,10 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
 {
-    public function __construct (PostRepository $postRepository, CategoryRepository $categoryRepository, ObjectManager $entityManager)
+    public function __construct (PostRepository $postRepository, CategoryRepository $categoryRepository, CommentRepository $commentRepository, ObjectManager $entityManager)
     {
         $this->postRepository = $postRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->commentRepository = $commentRepository;
         $this->entityManager = $entityManager;
     }
 

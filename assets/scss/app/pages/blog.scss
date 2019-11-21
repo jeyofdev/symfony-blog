@@ -48,6 +48,15 @@
 /* ================
     CARD BODY
 ================ */
+.blog-comment .card-body .card-title {
+    color: $primary !important;
+    text-transform: capitalize;
+    font-family: $font-family-sans-serif;
+    font-size: rem(14);
+    font-weight: bold;
+    margin-bottom: rem(5);
+}
+
 .blog-list .card-body,
 .blog-single .card-body {
     .categories {
@@ -88,17 +97,25 @@
 
 
 
+/* ====================================
+    RELATED POSTS AND BLOG COMMENT
+==================================== */
+.blog-related,
+.blog-comment {
+    .bloc-title {
+        text-transform: uppercase;
+        font-family: $font-family-sans-serif;
+        font-size: rem(14);
+    }
+}
+
+
+
 /* ===================
     RELATED POSTS
 =================== */
 .blog-related {
     .card .card-body .card-title h3 {
         font-size: rem(20);
-    }
-
-    .bloc-title {
-        text-transform: uppercase;
-        font-family: $font-family-sans-serif;
-        font-size: rem(14);
     }
 }
