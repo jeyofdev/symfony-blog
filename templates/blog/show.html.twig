@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
+{% import 'blog/parts/macro-list-posts.html.twig' as listPosts %}
 
 {% block title %}{{ parent() }} | {{ post.title }}{% endblock %}
 
 {% block body %}
+    <!-- the current post -->
     <div class="blog-single mt-50">
         <div class="card">
-            <div class="card-header mb-80">
-                <img class="img-fluid" src="https://via.placeholder.com/1100x425" alt="">
-            </div>
+            {{ listPosts.header("https://via.placeholder.com/1100x425", "mb-80") }}
 
             <div class="card-body mx-50">
                 {% if post.categories.values is not empty %}
@@ -24,6 +24,27 @@
             <div class="card-footer mx-50 mt-30 pt-30">
                 <p class="card-muted">written on {{ post.createdAt | date("d F Y") }}</p>
             </div>
+        </div>
+    </div>
+
+
+    <!-- the related posts -->
+    <div class="blog-related mt-125 mb-80 mx-50">
+        <h4 class="text-secondary bloc-title mb-35">You may also like</h4>
+        <div class="row">
+            {% for relatedPost in relatedPosts %}
+                <div class="col-12 col-md-4 mb-0">
+                    <div class="card">
+                        {{ listPosts.header("https://via.placeholder.com/500x225", "mb-3") }}
+
+                        <div class="card-body">
+                            <a class="d-block card-title" href="{{ path('blog.show', {id: relatedPost.id, slug: relatedPost.slug}) }}">
+                                <h3>{{ relatedPost.title | capitalize }}</h3>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

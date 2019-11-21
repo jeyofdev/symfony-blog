@@ -22,6 +22,20 @@ class PostRepository extends ServiceEntityRepository
 
 
     /**
+     * @return Post[] Returns an array of the latest Post objects
+     */
+    public function findLast(int $limit)
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy("p.id", 'desc')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+    /**
      * @return Post[] Returns an array of all Post objects
      */
     public function findAllBy(string $orderBy, string $order = 'asc')
@@ -41,7 +55,8 @@ class PostRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.categories', 'c')
-            ->where("c.id = {$category->getId()}")
+            ->where('c.id = :id')
+            ->setParameter('id', $category->getId())
             ->orderBy("p.$orderBy", $order)
             ->getQuery()
             ->getResult()

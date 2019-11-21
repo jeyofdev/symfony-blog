@@ -113,8 +113,27 @@ class BlogController extends AbstractController
             ], 301);
         }
 
+        /**
+         * @var Post[]
+         */
+        $lastPosts = $this->postRepository->findLast(10);
+
+        // get the ids of the last posts
+        $ids = [];
+        foreach ($lastPosts as $post) {
+            $ids[] = $post->getId();
+        }
+
+        // get a random posts
+        $relatedPosts = [];
+        for ($i = 0; $i < 3; $i++) { 
+            $id = $ids[array_rand($ids)];
+            $relatedPosts[] =  $this->postRepository->find(["id" => $id]);
+        }
+
         return $this->render('blog/show.html.twig', [
-            "post" => $post
+            "post" => $post,
+            "relatedPosts" => $relatedPosts
         ]);
     }
 }

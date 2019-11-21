@@ -1,7 +1,7 @@
 {# feature image of the post #}
-{% macro header() %}
-    <div class="card-header mb-35">
-        <img class="img-fluid" src="https://via.placeholder.com/1100x425" alt="">
+{% macro header(imgSrc, class) %}
+    <div class="card-header {{ class }}">
+        <img class="img-fluid" src="{{ imgSrc }}" alt="">
     </div>
 {% endmacro header %}
 
