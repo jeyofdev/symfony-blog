@@ -3,7 +3,9 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Post;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
@@ -62,7 +64,27 @@ class PostFixtures extends Fixture
             }
 
             $manager->persist($post);
+
+
+            // add comments for each posts
+            for ($k = 1; $k <= mt_rand(0, 10); $k++) {
+                $comment = new Comment();
+                
+                // interval in days between the date of creation of the post and the current date
+                $now = new DateTime();
+                $interval = $now->diff($post->getCreatedAt());
+                $days = $interval->days;
+                $minimum = '-' . $days . 'days';
+
+                $comment->setUser($faker->username)
+                        ->setContent($faker->sentence(15, true))
+                        ->setCreatedAt($faker->dateTimeBetween($minimum))
+                        ->setPost($post);
+
+                $manager->persist($comment);
+            }
         }
+
 
         $manager->flush();
     }
