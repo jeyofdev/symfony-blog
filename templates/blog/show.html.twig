@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import 'blog/parts/macro-list-posts.html.twig' as listPosts %}
+{% import 'blog/parts/macro-post.html.twig' as postSingle %}
 
 {% block title %}{{ parent() }} | {{ post.title }}{% endblock %}
 
@@ -62,19 +63,12 @@
     <!--  the post comments -->
     <div class="blog-comment mt-125 mx-50">
         <h4 class="text-secondary bloc-title mb-35">
-            {% if post.comments | length is same as (0) %}
-                {{ 'No comments' }}
-            {% elseif post.comments | length is same as (1) %}
-                {{ post.comments | length ~ " comment" }}
-            {% else %}
-                {{ post.comments | length ~ " comments" }}
-            {% endif %}
+            {{ postSingle.commentNumber(post) }}
         </h4>
 
         <!-- form -->
         {% if app.user is not null %}
             {{ form_start(form, { 'attr': {'class': 'formComment'} }) }}
-            {{ form_row(form.username) }}
             {{ form_row(form.content) }}
             
             <button class="btn btn-primary" type="submit">Add a comment</button>
@@ -91,7 +85,7 @@
                 <div class="col-12 comment mb-30 px-0">
                     <div class="card">
                         <div class="card-body">
-                            <p class="card-title">{{ comment.username }} <small>({{ comment.createdAt | date("d/m/Y à H:i:s") }})</small></p>
+                            <p class="card-title">{{ comment.user.username }} <small>({{ comment.createdAt | date("d/m/Y à H:i:s") }})</small></p>
                             <p class="card-text">{{ comment.content | raw }}</p>
                         </div>
                         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')%}

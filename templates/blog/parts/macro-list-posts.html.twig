@@ -16,9 +16,18 @@
                 {% endfor %}
             </p>
         {% endif %}
-        <a class="d-block card-title mb-35" href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">
+        <a class="d-block card-title mb-2" href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">
             <h2>{{ post.title | capitalize }}</h2>
         </a>
+        <p class="card-muted mb-35">
+            {% if post.comments | length is same as (0) %}
+                {{ 'No comments' }}
+            {% elseif post.comments | length is same as (1) %}
+                {{ post.comments | length ~ " comment" }}
+            {% else %}
+                {{ post.comments | length ~ " comments" }}
+            {% endif %}
+        </p>
         <p class="card-text">{{ post.content | truncate(250, true) | nl2br }}</p>
         <p class="card-muted my-35">Written on {{ post.createdAt | date("d F Y") }}</p>
         <a class="btn btn-primary" href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">see more</a>

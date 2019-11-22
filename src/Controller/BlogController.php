@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class BlogController extends AbstractController
 {
@@ -109,7 +109,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog/{slug}-{id}", name="blog.show", methods={"GET", "POST"}, requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
      */
-    public function show (Post $post, string $slug, Request $request) : Response
+    public function show (Post $post, string $slug, Request $request, ?UserInterface $user) : Response
     {
         // check if the slug of the current post exist
         if($post->getSlug() !== $slug){
@@ -148,7 +148,8 @@ class BlogController extends AbstractController
 
             $comment
                 ->setCreatedAt($createdAt)
-                ->setPost($post);
+                ->setPost($post)
+                ->setUser($user);
 
             $this->entityManager->persist($comment);
             $this->entityManager->flush();

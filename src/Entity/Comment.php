@@ -19,19 +19,6 @@ class Comment
 
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     * @Assert\Length(
-     *      min = 3,
-     *      max = 255,
-     *      minMessage = "The username must be at least {{ limit }} characters long",
-     *      maxMessage = "The username cannot be longer than {{ limit }} characters"
-     * )
-     */
-    private $username;
-
-
-    /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
      * @Assert\Length(
@@ -55,23 +42,16 @@ class Comment
     private $post;
 
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
     }
 
 
@@ -112,6 +92,20 @@ class Comment
     public function setPost(?Post $post): self
     {
         $this->post = $post;
+
+        return $this;
+    }
+
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

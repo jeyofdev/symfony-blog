@@ -5,13 +5,33 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PostFixtures extends Fixture
 {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $encoder;
+
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
+
+    /**
+     * @var User[]
+     */
+    private $users;
+
+
     /**
      * @var Category[]
      */
@@ -24,8 +44,25 @@ class PostFixtures extends Fixture
         $faker = Factory::create();
 
 
+        $roles = ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN'];
+
+        // random user
+        for ($i = 0; $i < 10; $i++) {
+            $username = $faker->username;
+
+            $user = new User();
+            $user
+                ->setUsername($username)
+                ->setRoles($faker->randomElements($roles, 1))
+                ->setPassword($this->encoder->encodePassword($user, $username));
+            $manager->persist($user);
+
+            $this->users[] = $user;
+        }
+
+
         // add the categories
-        for ($i = 0; $i < 5; $i++) { 
+        for ($j = 0; $j < 5; $j++) { 
             $category = new Category();
             $category
                 ->setTitle($faker->words(3, true))
@@ -38,7 +75,7 @@ class PostFixtures extends Fixture
 
 
         // add the posts
-        for ($j = 1; $j <= 20; $j++) {
+        for ($k = 1; $k <= 20; $k++) {
             $post = new Post();
             $post
                 ->setTitle($faker->words(3, true))
@@ -51,14 +88,14 @@ class PostFixtures extends Fixture
             $countCategories = count($this->categories);
             $indexesPostCategories = array_rand($this->categories, mt_rand(1, $countCategories));
 
-            foreach ($this->categories as $k => $v) {
+            foreach ($this->categories as $key => $value) {
                 if (is_array($indexesPostCategories)) {
-                    if (in_array($k, $indexesPostCategories)) {
-                        $post->setCategories($v); 
+                    if (in_array($key, $indexesPostCategories)) {
+                        $post->setCategories($value); 
                     }
                 } else {
-                    if ($k === $indexesPostCategories) {
-                        $post->setCategories($v); 
+                    if ($key === $indexesPostCategories) {
+                        $post->setCategories($value); 
                     }
                 }
             }
@@ -67,7 +104,7 @@ class PostFixtures extends Fixture
 
 
             // add comments for each posts
-            for ($k = 1; $k <= mt_rand(0, 10); $k++) {
+            for ($l = 1; $l <= mt_rand(1, 10); $l++) {
                 $comment = new Comment();
                 
                 // interval in days between the date of creation of the post and the current date
@@ -76,10 +113,17 @@ class PostFixtures extends Fixture
                 $days = $interval->days;
                 $minimum = '-' . $days . 'days';
 
-                $comment->setUser($faker->username)
-                        ->setContent($faker->sentence(15, true))
+                $comment->setContent($faker->sentence(15, true))
                         ->setCreatedAt($faker->dateTimeBetween($minimum))
                         ->setPost($post);
+
+                $commentUser = array_rand($this->users);
+
+                foreach ($this->users as $key => $value) {
+                    if ($key === $commentUser) {
+                        $comment->setUser($value); 
+                    }
+                }
 
                 $manager->persist($comment);
             }

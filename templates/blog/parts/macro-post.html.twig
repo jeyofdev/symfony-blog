@@ -1,0 +1,10 @@
+{# number of comments of a post #}
+{% macro commentNumber(post) %}
+    {% if post.comments | length is same as (0) %}
+        {{ 'No comments' }}
+    {% elseif post.comments | length is same as (1) %}
+        {{ post.comments | length ~ " comment" }}
+    {% else %}
+        {{ post.comments | length ~ " comments" }}
+    {% endif %}
+{% endmacro commentNumber %}
