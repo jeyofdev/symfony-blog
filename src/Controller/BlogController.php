@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Post;
+use App\Form\CommentType;
 use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
+use DateTime;
+use DateTimeZone;
 use Doctrine\Common\Persistence\ObjectManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -103,9 +107,9 @@ class BlogController extends AbstractController
 
 
     /**
-     * @Route("/blog/{slug}-{id}", name="blog.show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
+     * @Route("/blog/{slug}-{id}", name="blog.show", methods={"GET", "POST"}, requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
      */
-    public function show (Post $post, string $slug) : Response
+    public function show (Post $post, string $slug, Request $request) : Response
     {
         // check if the slug of the current post exist
         if($post->getSlug() !== $slug){
@@ -133,9 +137,29 @@ class BlogController extends AbstractController
             $relatedPosts[] =  $this->postRepository->find(["id" => $id]);
         }
 
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        // add a comment
+        if ($form->isSubmitted() && $form->isValid()) {
+            $timeZone = new DateTimeZone('Europe/Paris');
+            $createdAt = new DateTime('now', $timeZone);
+
+            $comment
+                ->setCreatedAt($createdAt)
+                ->setPost($post);
+
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('blog.show', ['id' => $post->getId(), 'slug' => $post->getSlug()]);
+        }
+
         return $this->render('blog/show.html.twig', [
             "post" => $post,
-            "relatedPosts" => $relatedPosts
+            "relatedPosts" => $relatedPosts,
+            "form" => $form->createView()
         ]);
     }
 }

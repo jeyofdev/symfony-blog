@@ -50,7 +50,7 @@
 
 
     <!--  the post comments -->
-    <div class="blog-comment mt-75 mx-50">
+    <div class="blog-comment mt-125 mx-50">
         <h4 class="text-secondary bloc-title mb-35">
             {% if post.comments | length is same as (0) %}
                 {{ 'No comments' }}
@@ -61,12 +61,23 @@
             {% endif %}
         </h4>
 
+        <!-- form -->
+        <div class="row mb-5">
+            {{ form_start(form, { 'attr': {'class': 'formComment'} }) }}
+            {{ form_row(form.username) }}
+            {{ form_row(form.content) }}
+            
+            <button class="btn btn-primary" type="submit">Add a comment</button>
+            {{ form_end(form) }}
+        </div>
+
+        <!-- comments -->
         <div class="row">
             {% for comment in post.comments %}
-                <div class="col-12 comment mb-30">
+                <div class="col-12 comment mb-30 px-0">
                     <div class="card">
                         <div class="card-body">
-                            <p class="card-title">{{ comment.user }} (<small>{{ comment.createdAt | date("d/m/Y à H:i:s") }}</small>)</p>
+                            <p class="card-title">{{ comment.username }} <small>({{ comment.createdAt | date("d/m/Y à H:i:s") }})</small></p>
                             <p class="card-text">{{ comment.content | raw }}</p>
                         </div>
                     </div>

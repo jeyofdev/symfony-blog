@@ -119,3 +119,17 @@
         font-size: rem(20);
     }
 }
+
+
+
+/* ==================
+    BLOG COMMENT
+================== */
+.blog-comment .row {
+    padding-right: rem(15);
+    padding-left: rem(15);
+
+    #formComment {
+        margin-top: 0 !important;
+    }
+}

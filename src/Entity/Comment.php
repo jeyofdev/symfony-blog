@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -19,12 +20,24 @@ class Comment
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 255,
+     *      minMessage = "The username must be at least {{ limit }} characters long",
+     *      maxMessage = "The username cannot be longer than {{ limit }} characters"
+     * )
      */
-    private $user;
+    private $username;
 
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 3,
+     *      minMessage = "The content must be at least {{ limit }} characters long",
+     * )
      */
     private $content;
 
@@ -48,15 +61,15 @@ class Comment
     }
 
 
-    public function getUser(): ?string
+    public function getUsername(): ?string
     {
-        return $this->user;
+        return $this->username;
     }
 
 
-    public function setUser(string $user): self
+    public function setUsername(string $username): self
     {
-        $this->user = $user;
+        $this->username = $username;
 
         return $this;
     }

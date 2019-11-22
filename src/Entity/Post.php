@@ -27,8 +27,8 @@ class Post
      * @Assert\Length(
      *      min = 3,
      *      max = 255,
-     *      minMessage = "Your first name must be at least {{ limit }} characters long",
-     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     *      minMessage = "The title must be at least {{ limit }} characters long",
+     *      maxMessage = "The title cannot be longer than {{ limit }} characters"
      * )
      */
     private $title;
@@ -39,7 +39,7 @@ class Post
      * @Assert\NotBlank
      * @Assert\Length(
      *      min = 20,
-     *      minMessage = "Your first name must be at least {{ limit }} characters long"
+     *      minMessage = "The content must be at least {{ limit }} characters long"
      * )
      */
     private $content;
