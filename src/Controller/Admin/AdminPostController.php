@@ -137,7 +137,7 @@ class AdminPostController extends AbstractController
     /**
      * @Route("/admin/post/publish/{id}", name="admin.post.publish", methods={"GET"})
      */
-    public function publish (Post $post)
+    public function publish (Post $post) : response
     {
         $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
 
