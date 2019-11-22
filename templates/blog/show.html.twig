@@ -72,17 +72,21 @@
         </h4>
 
         <!-- form -->
-        <div class="row mb-5">
+        {% if app.user is not null %}
             {{ form_start(form, { 'attr': {'class': 'formComment'} }) }}
             {{ form_row(form.username) }}
             {{ form_row(form.content) }}
             
             <button class="btn btn-primary" type="submit">Add a comment</button>
             {{ form_end(form) }}
-        </div>
+        {% else %}
+            <div class="alert alert-danger">
+                <a href="{{ path('login') }}">You must log in to add a comment.</a> 
+            </div>
+        {% endif %}
 
         <!-- comments -->
-        <div class="row">
+        <div class="row mt-5">
             {% for comment in post.comments %}
                 <div class="col-12 comment mb-30 px-0">
                     <div class="card">
