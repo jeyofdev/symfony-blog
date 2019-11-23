@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AdminPostController extends AbstractController
 {
@@ -48,7 +49,7 @@ class AdminPostController extends AbstractController
     /**
      * @Route("/admin/post/new", name="admin.post.new", methods={"GET", "POST"})
      */
-    public function new (Request $request) : response
+    public function new (Request $request, ?UserInterface $user) : response
     {
         $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
 
@@ -64,7 +65,9 @@ class AdminPostController extends AbstractController
             $post
                 ->setCreatedAt($createdAt)
                 ->setUpdatedAt($createdAt)
-                ->setSlug();
+                ->setSlug()
+                ->setPublished(0)
+                ->setUser($user);
 
             $this->entityManager->persist($post);
             $this->entityManager->flush();
