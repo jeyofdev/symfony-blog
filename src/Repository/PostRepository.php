@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -72,6 +73,23 @@ class PostRepository extends ServiceEntityRepository
             ->andWhere('c.id = :id')
             ->andWhere('p.published = 1')
             ->setParameter('id', $category->getId())
+            ->orderBy("p.$orderBy", $order)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+    /**
+     * @return Post[] Returns an array of each Post object that corresponds to a User object
+     */
+    public function findPostsByUser(User $user, string $orderBy, string $order = 'asc')
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.user', 'u')
+            ->andWhere('u.id = :id')
+            ->andWhere('p.published = 1')
+            ->setParameter('id', $user->getId())
             ->orderBy("p.$orderBy", $order)
             ->getQuery()
             ->getResult()

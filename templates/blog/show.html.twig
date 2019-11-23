@@ -24,7 +24,7 @@
                 {% if post.categories.values is not empty %}
                     <p class="mb-30 categories">
                         {% for key, category in post.categories.values %}
-                            <a href="{{ path('blog.category.index', {id: category.id, slug: category.slug}) }}">{{ category.title }}</a>{% if key != (post.categories.values | length - 1) %}{{', '}}{% endif %}
+                            <a href="{{ path('blog.category', {id: category.id, slug: category.slug}) }}">{{ category.title }}</a>{% if key != (post.categories.values | length - 1) %}{{', '}}{% endif %}
                         {% endfor %}
                     </p>
                 {% endif %}
@@ -33,7 +33,11 @@
             </div>
 
             <div class="card-footer mx-50 mt-30 pt-30">
-                <p class="card-muted">written on {{ post.createdAt | date("d F Y") }}</p>
+                <p class="card-muted">
+                    Written by
+                    <a href="{{ path('blog.user', {id: post.user.id, slug: post.user.slug}) }}">{{ post.user.slug }}</a>
+                    on {{ post.createdAt | date("d F Y") }}
+                </p>
             </div>
         </div>
     </div>

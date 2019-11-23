@@ -54,7 +54,8 @@ class PostFixtures extends Fixture
             $user
                 ->setUsername($username)
                 ->setRoles($faker->randomElements($roles, 1))
-                ->setPassword($this->encoder->encodePassword($user, $username));
+                ->setPassword($this->encoder->encodePassword($user, $username))
+                ->setSlug();
             $manager->persist($user);
 
             $this->users[] = $user;
@@ -97,6 +98,13 @@ class PostFixtures extends Fixture
                     if ($key === $indexesPostCategories) {
                         $post->setCategories($value); 
                     }
+                }
+            }
+
+            $postUser = array_rand($this->users);
+            foreach ($this->users as $key => $value) {
+                if ($key === $postUser) {
+                    $post->setUser($value); 
                 }
             }
 

@@ -12,7 +12,7 @@
         {% if post.categories.values is not empty %}
             <p class="mb-30 categories">
                 {% for key, category in post.categories.values %}
-                    <a href="{{ path('blog.category.index', {id: category.id, slug: category.slug}) }}">{{ category.title }}</a>{% if key != (post.categories.values | length - 1) %}{{', '}}{% endif %}
+                    <a href="{{ path('blog.category', {id: category.id, slug: category.slug}) }}">{{ category.title }}</a>{% if key != (post.categories.values | length - 1) %}{{', '}}{% endif %}
                 {% endfor %}
             </p>
         {% endif %}
@@ -29,7 +29,11 @@
             {% endif %}
         </p>
         <p class="card-text">{{ post.content | truncate(250, true) | nl2br }}</p>
-        <p class="card-muted my-35">Written on {{ post.createdAt | date("d F Y") }}</p>
+        <p class="card-muted my-35">
+            Written by
+            <a href="{{ path('blog.user', {id: post.user.id, slug: post.user.slug}) }}">{{ post.user.slug }}</a>
+            on {{ post.createdAt | date("d F Y") }}
+        </p>
         <a class="btn btn-primary" href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">see more</a>
     </div>
 {% endmacro content %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/global.html.twig' as global %}
+{% import 'blog/parts/macro-list-posts.html.twig' as listPosts %}
+
+{% block title %}{{ parent() ~  " | list of posts from the user : " ~ currentUser.username }}{% endblock %}
+
+{% block body %}
+    {{ global.pageTitle("list of posts from the user : " ~ currentUser.username) }}
+
+    <!-- list of posts -->
+    {{ include ("blog/parts/_list.html.twig") }}
+    {{ global.pagination(posts) }}
+{% endblock %}

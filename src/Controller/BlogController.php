@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Form\CommentType;
 use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
@@ -65,13 +66,13 @@ class BlogController extends AbstractController
 
 
     /**
-     * @Route("/blog/category/{slug}-{id}", name="blog.category.index", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
+     * @Route("/blog/category/{slug}-{id}", name="blog.category", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
      */
     public function category(Category $category, string $slug, PaginatorInterface $paginator, Request $request) : Response
     {
         // check if the slug of the current category exist
         if($category->getSlug() !== $slug){
-            return $this->redirectToRoute("blog.category.index", [
+            return $this->redirectToRoute("blog.category", [
                 "id" => $category->getId(),
                 "slug" => $category->getSlug()
             ], 301);
@@ -101,6 +102,48 @@ class BlogController extends AbstractController
         return $this->render('blog/category.html.twig', [
             "posts" => $posts,
             "currentCategory" => $category
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/blog/user/{slug}-{id}", name="blog.user", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*", "id": "\d+"})
+     */
+    public function user(User $user, string $slug, PaginatorInterface $paginator, Request $request) : Response
+    {
+        // check if the slug of the current category exist
+        if($user->getSlug() !== $slug){
+            return $this->redirectToRoute("blog.user", [
+                "id" => $user->getId(),
+                "slug" => $user->getSlug()
+            ], 301);
+        }
+
+        /**
+         * @var Post[];
+         */
+        $posts = $this->postRepository->findPostsByUser($user, "created_at", "desc");
+        
+        // add the categories associated with each posts
+        foreach ($posts as $post) {
+            /**
+             * @var Category[]
+             */
+            $categories = $this->categoryRepository->findCategoriesByPost($post);
+            $post->getCategories()->hydrateAdd($categories);
+        }
+
+        // the paginated posts
+        $posts = $paginator->paginate(
+            $this->postRepository->findPostsByUser($user, "created_at", "desc"),
+            $request->query->getInt('page', 1),
+            7
+        );
+
+        return $this->render('blog/user.html.twig', [
+            "posts" => $posts,
+            "currentUser" => $user
         ]);
     }
 
