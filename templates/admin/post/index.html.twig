@@ -24,6 +24,7 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
+                        <th scope="col">Author</th>
                         <th scope="col">Creation</th>
                         <th scope="col">Last update</th>
                         <th scope="col">Action</th>
@@ -37,6 +38,7 @@
                             <td>
                                 <a href="{{ path('blog.show', {id: post.id, slug: post.slug}) }}">{{ post.title | capitalize }}</a>
                             </td>
+                            <td>{{ post.user.username }}</td>
                             <td>{{ post.createdAt | date("d F Y") }}</td>
                             <td>{{ post.updatedAt | date("d F Y") }}</td>
                             <td>
