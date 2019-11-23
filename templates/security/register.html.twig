@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/global.html.twig' as global %}
+
+{% block title %}{{ parent() ~  " | Register" }}{% endblock %}
+
+{% block body %}
+    {{ global.pageTitle("Register") }}
+
+    <!-- flash message -->
+    {% for label, messages in app.flashes(['success', 'danger']) %}
+        {% for message in messages %}
+            <p class="alert alert-{{ label }} my-5">
+                {{ message }}
+            </p>
+        {% endfor %}
+    {% endfor %}
+
+    <!-- form -->
+    {{ form_start(form) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.password) }}
+        {{ form_row(form.confirm_password) }}
+
+        <button class="btn btn-primary">Register</button>
+    {{ form_end(form) }}
+{% endblock %}

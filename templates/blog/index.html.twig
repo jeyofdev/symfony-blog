@@ -7,6 +7,13 @@
 {% block body %}
     {{ global.pageTitle("List of blog posts") }}
 
+    <!-- flash message -->
+    {% for message in app.flashes('success') %}
+        <p class="alert alert-success my-5">
+            {{ message }}
+        </p>
+    {% endfor %}
+
     <!-- list of posts -->
     {{ include ("blog/parts/_list.html.twig") }}
     {{ global.pagination(posts) }}
