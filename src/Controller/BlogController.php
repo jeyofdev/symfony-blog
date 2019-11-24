@@ -180,19 +180,34 @@ class BlogController extends AbstractController
             $relatedPosts[] =  $this->postRepository->find(["id" => $id]);
         }
 
-        $comment = new Comment();
+        // check if the user adds or update a comment
+        if (!empty($_POST)) {
+            if ($_POST['_commentId'] === "") {
+                $comment = new Comment();
+            } else {
+                $comment = $this->commentRepository->find($_POST['_commentId']);
+            }
+        } else {
+            $comment = new Comment();
+        }
+        
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
-        // add a comment
+        // add or update a comment
         if ($form->isSubmitted() && $form->isValid()) {
-            $timeZone = new DateTimeZone('Europe/Paris');
-            $createdAt = new DateTime('now', $timeZone);
-
-            $comment
-                ->setCreatedAt($createdAt)
-                ->setPost($post)
-                ->setUser($user);
+            // if the user adds a new comment
+            if (is_null($comment->getId())) {
+                $timeZone = new DateTimeZone('Europe/Paris');
+                $createdAt = new DateTime('now', $timeZone);
+    
+                $comment
+                    ->setCreatedAt($createdAt)
+                    ->setPost($post)
+                    ->setUser($user);
+            } else {
+                $this->addFlash('success', 'The comment has been updated');
+            }
 
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
@@ -203,7 +218,8 @@ class BlogController extends AbstractController
         return $this->render('blog/show.html.twig', [
             "post" => $post,
             "relatedPosts" => $relatedPosts,
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            "commentId" => $comment->getId()
         ]);
     }
 }
