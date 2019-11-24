@@ -12,5 +12,8 @@
 const $ = require('jquery');
 
 require('../js/lib/bootstrap');
+import form from '../js/app/form.js';
 
 console.log('Hello Webpack Encore');
+
+form()
