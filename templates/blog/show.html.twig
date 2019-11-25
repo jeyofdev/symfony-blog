@@ -93,7 +93,8 @@
                             <p class="card-title">{{ comment.user.username }} <small>({{ comment.createdAt | date("d/m/Y à H:i:s") }})</small></p>
                             <p class="card-text">{{ comment.content | raw }}</p>
                         </div>
-                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')%}
+
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_USER') and app.user.username is same as (comment.user.username)) %}
                             <form method="post" action="{{ path('blog.show', {'id': post.id, 'slug': post.slug}) }}" style="display:inline;">
                                 <input type="hidden" name="_method" value="POST">
                                 <input type="hidden" id="commentId" name="_commentId" value="{{ comment.id }}">
