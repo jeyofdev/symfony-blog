@@ -3,13 +3,17 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
+ * @Vich\Uploadable
  */
 class Post
 {
@@ -67,6 +71,23 @@ class Post
      * @ORM\Column(type="smallint")
      */
     private $published;
+
+
+    /**
+        * @var File|null
+        * @Vich\UploadableField(mapping="property_image", fileNameProperty="filename")
+        * @Assert\Image(
+        *      mimeTypes = "image/jpeg"
+        * )
+        */
+    private $imageFile;
+
+
+    /**
+    * @var string|null
+    * @ORM\Column(type="string", nullable=true, length=255)
+    */
+    private $filename;
 
 
     /**
@@ -180,6 +201,41 @@ class Post
     public function setPublished(int $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): self
+    {
+        $this->imageFile = $imageFile;
+
+        if (!is_null($imageFile)) {
+            $this->updated_at = new DateTime();
+        }
+
+        return $this;
+    }
+
+
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+
+    public function setFilename(?string $filename): self
+    {
+        $this->filename = $filename;
 
         return $this;
     }

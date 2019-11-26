@@ -9,14 +9,14 @@
                 {% if key is same as (0) %}
                     <div class="col-12 mb-80">
                         <div class="card">
-                            {{ listPosts.header("https://via.placeholder.com/1100x425", "mb-35") }}
+                            {{ listPosts.header(post, "thumb_large", "mb-35") }}
                             {{ listPosts.content(post) }}
                         </div>
                     </div>
                 {% else %}
                     <div class="col-12 col-md-6 mb-80">
                         <div class="card">
-                            {{ listPosts.header("https://via.placeholder.com/500x225", "mb-35") }}
+                            {{ listPosts.header(post, "thumb", "mb-35") }}
                             {{ listPosts.content(post) }}
                         </div>
                     </div>

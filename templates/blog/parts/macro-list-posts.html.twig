@@ -1,7 +1,11 @@
 {# feature image of the post #}
-{% macro header(imgSrc, class) %}
+{% macro header(post, filter, class) %}
     <div class="card-header {{ class }}">
-        <img class="img-fluid" src="{{ imgSrc }}" alt="">
+        {% if post.filename %}
+            <img class="img-fluid" src="{{ vich_uploader_asset(post, 'imageFile') | imagine_filter(filter) }}" alt="{{ post.title }}">
+        {% else %}
+            <img class="img-fluid" src="{{ '/images/posts/default.jpg' }}" alt="{{ post.title }}">
+        {% endif %}
     </div>
 {% endmacro header %}
 

@@ -69,6 +69,10 @@ class AdminPostController extends AbstractController
                 ->setPublished(0)
                 ->setUser($user);
 
+            if ($_FILES['post']['error']['imageFile'] === 4) {
+                $post->setFilename('default.jpg');
+            }
+
             $this->entityManager->persist($post);
             $this->entityManager->flush();
             $this->addFlash('success', 'The post has been added');

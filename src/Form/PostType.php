@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Post;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,6 +30,10 @@ class PostType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'title',
                 'multiple' => true
+            ])
+            ->add('imageFile', FileType::class, [
+                'required' => false,
+                'label' => 'Featured image'
             ])
         ;
     }

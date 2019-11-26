@@ -18,7 +18,7 @@
     <!-- the current post -->
     <div class="blog-single mt-50">
         <div class="card">
-            {{ listPosts.header("https://via.placeholder.com/1100x425", "mb-80") }}
+            {{ listPosts.header(post, "medium", "mb-80") }}
 
             <div class="card-body mx-50">
                 {% if post.categories.values is not empty %}
@@ -50,7 +50,7 @@
             {% for relatedPost in relatedPosts %}
                 <div class="col-12 col-md-4 mb-0">
                     <div class="card">
-                        {{ listPosts.header("https://via.placeholder.com/500x225", "mb-3") }}
+                        {{ listPosts.header(relatedPost, "feature", "mb-3") }}
 
                         <div class="card-body">
                             <a class="d-block card-title" href="{{ path('blog.show', {id: relatedPost.id, slug: relatedPost.slug}) }}">

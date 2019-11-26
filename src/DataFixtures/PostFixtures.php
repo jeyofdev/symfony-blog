@@ -84,7 +84,8 @@ class PostFixtures extends Fixture
                 ->setCreatedAt($faker->dateTimeBetween("-3 years"))
                 ->setUpdatedAt($post->getCreatedAt())
                 ->setSlug()
-                ->setPublished(rand(0, 1));
+                ->setPublished(rand(0, 1))
+                ->setFilename('default.jpg');
 
             $countCategories = count($this->categories);
             $indexesPostCategories = array_rand($this->categories, mt_rand(1, $countCategories));
