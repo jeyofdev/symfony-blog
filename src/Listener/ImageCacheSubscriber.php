@@ -2,6 +2,8 @@
 
 namespace App\Listener;
 
+use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Post;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -46,9 +48,10 @@ class ImageCacheSubscriber implements EventSubscriber
     public function preRemove(LifecycleEventArgs $args) : void
     {
         $entity = $args->getEntity();
-        if($entity instanceof Post){
+        if($entity instanceof Post || $entity instanceof Category || $entity instanceof Comment){
             return;
         }
+
         $this->cacheManager->remove($this->uploaderHelper->asset($entity, 'imageFile'));
     }
 
@@ -63,7 +66,8 @@ class ImageCacheSubscriber implements EventSubscriber
         if($entity instanceof Post){
             return;
         }
-        if($entity->getImageFile() instanceof UploadedFile){
+        
+        if ((method_exists($entity, "getImageFile")) && ($entity->getImageFile() instanceof UploadedFile)) {
             $this->cacheManager->remove($this->uploaderHelper->asset($entity, 'imageFile'));
         }
     }
