@@ -28,7 +28,7 @@ class CommentController extends AbstractController
      */
     public function delete(Comment $comment, Request $request) : Response
     {
-        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_ADMIN or ROLE_SUPER_ADMIN');
+        $this->denyAccessUnlessGranted(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], null, 'User tried to access a page without having ROLE_USER, ROLE_ADMIN or ROLE_SUPER_ADMIN');
 
         $post = $this->postRepository->find($_POST['_postId']);
 

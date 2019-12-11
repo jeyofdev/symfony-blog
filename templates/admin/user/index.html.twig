@@ -1,0 +1,70 @@
+{% extends 'admin/base-admin.html.twig' %}
+{% import 'macro/global.html.twig' as global %}
+
+{% block title %}{{ parent() ~  " | List of users" }}{% endblock %}
+
+{% block body %}
+    {{ global.pageTitle("List of users") }}
+
+    {# flash message #}
+    {% for label, messages in app.flashes(['success', 'danger']) %}
+        {% for message in messages %}
+            <p class="alert alert-{{ label }} mt-5">
+                {{ message }}
+            </p>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="admin-list mt-5">
+            {% if users is not empty %}
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Roles</th>
+                            <th scope="col">Change the role</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <th scope="row">{{ user.id }}</th>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.roles | first | slice(5) | lower | replace({'_': " "}) }}</td>
+                                <td>
+                                    <form method="post" action="{{ path('admin.user.edit.role', {id: user.id}) }}">
+                                        <input type="hidden" name="_method" value="POST">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('update' ~ user.id) }}">
+                                        <input type="hidden" name="_role" value="ROLE_USER">
+                                        <button class="btn btn-outline-success rounded" >User</button>
+                                    </form>
+
+                                    <form method="post" action="{{ path('admin.user.edit.role', {id: user.id}) }}">
+                                        <input type="hidden" name="_method" value="POST">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('update' ~ user.id) }}">
+                                        <input type="hidden" name="_role" value="ROLE_ADMIN">
+                                        <button class="btn btn-outline-info rounded" >Admin</button>
+                                    </form>
+
+                                    <form method="post" action="{{ path('admin.user.edit.role', {id: user.id}) }}">
+                                        <input type="hidden" name="_method" value="POST">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('update' ~ user.id) }}">
+                                        <input type="hidden" name="_role" value="ROLE_SUPER_ADMIN">
+                                        <button class="btn btn-outline-danger rounded" >Super admin</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+    
+                {{ global.pagination(users) }}
+            {% else %}
+                <div class="text-center alert alert-danger">
+                    <h4 class="text-center">No users available</h4>
+                </div>
+            {% endif %}
+        </div>
+{% endblock %}
