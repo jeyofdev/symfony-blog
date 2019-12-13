@@ -28,8 +28,13 @@
                         {% endfor %}
                     </p>
                 {% endif %}
-                <h1 class="card-title mb-35">{{ post.title | capitalize }}</h1>
-                <p class="card-text">{{ post.content | nl2br }}</p>
+                <h1 class="card-title">{{ post.title | capitalize }}</h1>
+
+                {% if is_granted(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN']) %}
+                    <a class="btn btn-primary edit-post mt-2" href="{{ path('admin.post.update', {id: post.id}) }}">Edit this post</a>
+                {% endif %}
+        
+                <p class="card-text mt-35">{{ post.content | nl2br }}</p>
             </div>
 
             <div class="card-footer mx-50 mt-30 pt-30">
